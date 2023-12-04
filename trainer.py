@@ -71,12 +71,69 @@ def numToString(string):
             rtnStr = "E upper"
     return rtnStr
 
+def printTabs(num, string, numStrings):
+    fret = numToFret(num, string)
+    for st in range(numStrings):
+        # print("AAA" + str(num))
+        print("", end = "")
+        # Works in 'inverting it', so it goes from lowest to highest string
+        if st == (numStrings - 1 - string):
+            if fret > 9:
+                print(f"---{fret}--")
+            
+            else:
+                print(f"---{fret}---")
+        else:
+            print("-------")
+
 def main():
+    
     while True:
-        num = random.randint(0, NUM_NOTES-1)
-        string = random.randint(0, 5)
-        print(f"{enumToNote(num)} converts to {numToFret(num, string)} on {numToString(string)}")
-        time.sleep(1)
+        inp = input("Input a delay (seconds): ")
+        try:
+            delay = int(inp)
+            break
+        except:
+            print("Invalid Input")
+
+    numStr = 6
+    while True:
+        inp = input("Bass or Guitar? (b/g): ")
+        if inp == "b":
+            numStr = 4
+            break
+        elif inp == "g":
+            numStr = 6
+            break
+        else:
+            print("Invalid input")
+
+    auto = False
+
+    while True:
+        print("====================================")
+        num = random.randint(0, NUM_NOTES - 1)
+        string = random.randint(0, numStr - 1)
+        print(f"{enumToNote(num)} on {numToString(string)} string")
+        # print(f"{enumToNote(num)} converts to {numToFret(num, string)} on {numToString(string)}")
+        time.sleep(delay)
+        printTabs(num, string, numStr)
+
+        if not auto:
+            while True:
+                inp = input("Again? (Y/N/Auto) : ").lower()
+                if inp == "y":
+                    break
+                elif inp == "n":
+                    exit()
+                elif inp == "a" or inp == "auto":
+                    auto = True
+                    break
+                else:
+                    print("Invalid input")
+        else:
+            time.sleep(1)   # Comment this out if you want real hell
+        
 
 if __name__ == "__main__":
     main()
